@@ -24,3 +24,10 @@ The trade-off: we only support non-negative Julian dates. Negative Julian dates 
 - Input must be a finite, non-negative number. `NaN`, `Infinity`, and negative values throw.
 - The fractional part is always returned in `[0, 1)` via `Math.floor`, so a whole-number Julian date yields a fraction of exactly `0`.
 - `combineJulianDate` requires `fractionOfDay` to be in `[0, 1)`; it rejects values outside that range rather than silently wrapping.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
